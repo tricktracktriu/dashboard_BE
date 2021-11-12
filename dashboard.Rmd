@@ -1,17 +1,22 @@
 ---
 title: "Übertritte Kanton Bern"
+#runtime: shiny
 output: 
   flexdashboard::flex_dashboard:
     vertical_layout: fill
     horizontal_layout: fill
     theme: united
-    #storyboard: true
-    #social: menu
-    #source_code: https://github.com/tricktracktriu/dashboard_BE.git
+    # storyboard: true
+    # social: menu
+    # logo: coolpic.png
+    # favicon: coolicon.png
+    source_code: https://github.com/tricktracktriu/dashboard_BE.git
 ---
 
 ```{r setup, include=FALSE}
 library(flexdashboard)
+library(dplyr)
+library(ggplot2)
 ```
 
 
@@ -37,20 +42,27 @@ Column {data-width=550}
 
 ```{r}
 #setup
-library(dplyr)
-library(ggplot2)
+# library(dplyr)
+# library(ggplot2)
 
 p <- mtcars %>% 
   ggplot(aes(wt, mpg)) +
   geom_point() 
+
 p
-# plotly::ggplotly(p)
 
 ```
 
 ### Chart A.2
 
 ```{r}
+
+p <- mtcars %>%
+  ggplot(aes(wt, mpg)) +
+  geom_point()
+
+# im YAML runtime: shiny notwendig
+# plotly::renderPlotly(p)
 
 ```
 
