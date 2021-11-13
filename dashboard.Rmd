@@ -1,102 +1,105 @@
 ---
-title: "Übertritte Kanton Bern"
-#runtime: shiny
+title: "Dashboard BE"
+runtime: shiny
 output: 
   flexdashboard::flex_dashboard:
+    orientation: columns
     vertical_layout: fill
-    horizontal_layout: fill
-    theme: united
-    # storyboard: true
-    # social: menu
-    # logo: coolpic.png
-    # favicon: coolicon.png
     source_code: https://github.com/tricktracktriu/dashboard_BE.git
 ---
 
 ```{r setup, include=FALSE}
 library(flexdashboard)
+library(shiny)
 library(dplyr)
 library(ggplot2)
+library(plotly)
 ```
 
-
-Sidebar Title {.sidebar}
-===================================
-This Dashboard is Important. 
-RMarkdown syntax works here! 
-[Click here](https://youtu.be/dQw4w9WgXcQ).
+```{r global, include=FALSE}
+#global anstatt data
 
 
-Seite A {data-orientation=rows}
+
+```
+
+Gesamter Kanton
 =========================
 
-### Titel 1
-
-Text für Seite A
+Text, Text, Text
 
 
-Column {data-width=550}
+Column {data-width=400}
 -----------------------------------------------------------------------
 
-### Chart A.2
-
-```{r}
-#setup
-# library(dplyr)
-# library(ggplot2)
-
-p <- mtcars %>% 
-  ggplot(aes(wt, mpg)) +
-  geom_point() 
-
-p
-
-```
-
-### Chart A.2
+### Übertrittsquoten
 
 ```{r}
 
-p <- mtcars %>%
-  ggplot(aes(wt, mpg)) +
-  geom_point()
+```
 
-# im YAML runtime: shiny notwendig
-# plotly::renderPlotly(p)
+Column {data-width=400}
+-----------------------------------------------------------------------
+
+### Übertritte gesamt
+
+```{r}
+
+```
+
+### Übertritte Schülerinnen
+
+```{r}
+
+```
+
+### Übertritte Schüler
+
+```{r}
 
 ```
 
 
-Seite B {data-orientation=rows}
+
+Verwaltungskreise
 =========================
 
 
-Row {data-width=450}
+Sidebar {.sidebar data-width=200}
 -----------------------------------------------------------------------
 
-### Chart B.1
-
 ```{r}
+
+# selectInput("categorical_variable", label = "Variable_1 wählen", choices = v1)
+# selectInput("numeric_variable", label = "Variable_2 wählen", choices = v2)
 
 ```
 
-### Chart B.2
-
-```{r}
-
-```
-
-### Chart B.3
-
-```{r}
-
-```
-
-
-Row {data-height=450}
+Column {data-width=400}
 -----------------------------------------------------------------------
 
-### Chart B.1
+### Übertrittsquoten
+
+```{r}
+
+```
+
+Column {data-width=400}
+-----------------------------------------------------------------------
+
+### Übertritte gesamt
+
+```{r}
+
+```
+
+### Übertritte Schülerinnen
+
+```{r}
+
+```
+
+### Übertritte Schüler
 
 ```{r}
 
