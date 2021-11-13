@@ -1,6 +1,6 @@
 ---
 title: "Dashboard BE"
-runtime: shiny
+#runtime: shiny
 output: 
   flexdashboard::flex_dashboard:
     orientation: columns
@@ -12,8 +12,49 @@ output:
 library(flexdashboard)
 library(shiny)
 library(dplyr)
+library(sf)
+library(here)
+library(readxl)
 library(ggplot2)
 library(plotly)
+# 
+# df <- readxl::read_excel(here::here("daten", "Challenge Bista Hackdays 2021_tidy.xlsx")) %>%  #sheet = "abck"
+#   janitor::clean_names()
+# 
+# ### map grenzen einlesen
+# grenzen_ver <- st_read(here("daten",
+#                         "Verwaltungskreisgrenzen",
+#                         "Verwaltungskreise_2020.shp"))
+# 
+# # karten daten mit schuldaten verbinden
+# map_kanton <- left_join(grenzen_ver, df, by = c("V_KREISNR" = "geo_id"))
+# map_kanton$ubertritt[map_kanton$V_KREISNR == 0] <- "see"
+# 
+# # einzelne verwaltungskreise filtern
+# map_v_kreis <- map_kanton %>% filter(V_KREIS == "Thun") #c("Thun", "Thunersee"))
+
+
+```
+
+```{r data, include=FALSE}
+#global anstatt data
+
+df <- readxl::read_excel(here::here("daten", "Challenge Bista Hackdays 2021_tidy.xlsx")) %>%  #sheet = "abck"
+  janitor::clean_names()
+
+## map grenzen einlesen
+grenzen_ver <- sf::st_read(here::here("daten",
+                        "Verwaltungskreisgrenzen",
+                        "Verwaltungskreise_2020.shp"))
+
+# karten daten mit schuldaten verbinden
+map_kanton <- dplyr::left_join(grenzen_ver, df, by = c("V_KREISNR" = "geo_id"))
+map_kanton$ubertritt[map_kanton$V_KREISNR == 0] <- "see"
+
+# einzelne verwaltungskreise filtern
+map_v_kreis <- map_kanton %>% filter(V_KREIS == "Thun") #c("Thun", "Thunersee"))
+
+
 ```
 
 ```{r global, include=FALSE}
@@ -36,6 +77,21 @@ Column {data-width=400}
 
 ```{r}
 
+sf_map <- ggplot() +
+  geom_sf(data = filter(map_kanton, ubertritt != "gym"), 
+          #data = map_v_kreis,
+          aes(fill = uber_kat),
+          color = "white") +
+  coord_sf(datum = NA) +  
+  theme_void() + #Koordinatennetz verbergen
+  theme(legend.key.size = unit(1, "line"),                                       
+        legend.key.height = unit(0.5, "line")) +
+  scale_fill_continuous(name = "Legende") +
+  labs(title = "Titel",
+       subtitle = "Beschrieb", x="", y="")
+
+sf_map
+
 ```
 
 Column {data-width=400}
@@ -44,6 +100,20 @@ Column {data-width=400}
 ### Übertritte gesamt
 
 ```{r}
+
+# ggplot(data = filter(df, geo_einh == "Jura bernois"),
+#        aes(fill = ubertritt,
+#            y = ubertritt_total,
+#            x = sprache)) +
+#   geom_bar(position = "fill",
+#            stat="identity") +
+#   #geom_text(aes(y = label_y, label = Weight), colour = "white")
+#   coord_flip() +
+#   scale_y_continuous(labels = scales::percent) +
+#   theme_minimal() +
+#   theme(legend.position="none") +
+#   xlab(NULL) +
+#   ylab(NULL)
 
 ```
 
@@ -70,7 +140,9 @@ Sidebar {.sidebar data-width=200}
 
 ```{r}
 
-# selectInput("categorical_variable", label = "Variable_1 wählen", choices = v1)
+# selectInput("categorical_variable", 
+#             label = "Verwaltungskreise", 
+#             choices = geo_einh)
 # selectInput("numeric_variable", label = "Variable_2 wählen", choices = v2)
 
 ```
@@ -81,6 +153,22 @@ Column {data-width=400}
 ### Übertrittsquoten
 
 ```{r}
+
+# sf_map <- ggplot() +
+#   geom_sf(data = filter(map_kanton, ubertritt != "gym"),
+#           #data = map_v_kreis,
+#           aes(fill = uber_kat),
+#           color = "white") +
+#   coord_sf(datum = NA) +
+#   theme_void() + #Koordinatennetz verbergen
+#   theme(legend.key.size = unit(1, "line"),
+#         legend.key.height = unit(0.5, "line")) +
+#   scale_fill_continuous(name = "Legende") +
+#   labs(title = "Titel",
+#        subtitle = "Beschrieb", x="", y="")
+# 
+# renderPlot(sf_map)
+# plotly::ggplotly(sf_map)
 
 ```
 
