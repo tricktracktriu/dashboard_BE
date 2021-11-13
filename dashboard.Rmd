@@ -87,7 +87,7 @@ sf_map <- ggplot() +
   theme(legend.key.size = unit(1, "line"),                                       
         legend.key.height = unit(0.5, "line")) +
   scale_fill_continuous(name = "Sek-Übertrittsquoten") +
-  labs(title = "Übertrittsquote von der 6. KLasse in die Sekundarschule",
+  labs(title = "Übertrittsquote von der 6. Klasse in die Sekundarschule",
        subtitle = "weiterer Beschrieb", x="", y="")
 
 sf_map
