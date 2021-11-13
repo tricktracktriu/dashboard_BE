@@ -73,7 +73,7 @@ Text, Text, Text
 Column {data-width=400}
 -----------------------------------------------------------------------
 
-### Übertrittsquoten
+### Übertrittsquoten 2020 
 
 ```{r}
 
@@ -86,9 +86,9 @@ sf_map <- ggplot() +
   theme_void() + #Koordinatennetz verbergen
   theme(legend.key.size = unit(1, "line"),                                       
         legend.key.height = unit(0.5, "line")) +
-  scale_fill_continuous(name = "Legende") +
-  labs(title = "Titel",
-       subtitle = "Beschrieb", x="", y="")
+  scale_fill_continuous(name = "Sek-Übertrittsquoten") +
+  labs(title = "Übertrittsquote von der 6. KLasse in die Sekundarschule",
+       subtitle = "weiterer Beschrieb", x="", y="")
 
 sf_map
 
