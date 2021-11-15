@@ -13,7 +13,7 @@ Visualisierungen der Karten in der [Bildungsstatistik](https://www.erz.be.ch/erz
 R-Ansatz: Die CSV-Datei im Repository zeigt im ersten Sheet das bevorzugte Format der Daten. Könnte
 auch mit einem R-Skript gemacht werden.
 
-[Daten für PowerBi-Ansatz](https://github.com/brodrigues12345/Uebertrittsquoten_Schule)
+[Daten für Power BI-Ansatz](https://github.com/brodrigues12345/Uebertrittsquoten_Schule)
 
 ### Dashboard
 
