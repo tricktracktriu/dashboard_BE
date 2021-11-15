@@ -3,29 +3,46 @@
 ##########################
 
 #setup
-
-library(here)
 library(dplyr)
 library(tidyr)
-library(readxl)
 
 
 ### daten einlesen
 
-df <- read_excel(here("daten", "Challenge Bista Hackdays 2021_tidy.xlsx")) %>%  #sheet = "abck"
-  janitor::clean_names()
+df_sek <- readxl::read_excel(here::here("daten", "Challenge Bista Hackdays 2021-11_preproc.xlsx"),
+                     sheet = "Sekquote")
 
 
-df_long <- df %>% 
-  # pivot_longer(cols = starts_with("basis"),
-  #            names_to = "basis_kat", 
-  #            values_to = "basis_wert") %>% 
-  # pivot_longer(cols = starts_with("ubertritt_"),
-  #              names_to = "ubertritt_kat",
-  #              values_to = "ubertritt_wert") %>% 
-  pivot_longer(cols = ends_with("_m") | ends_with("_w"),
+### absolute zahlen berechne
+
+# annahme 1: ProzentBasis ist das Total an SuS im Verwaltungskreis
+# annahme 2: Verteilung ist innerhalb des Geschlechts 
+# (Bsp.: Jura -> 69% der Männer tretten in die Sek über und 31% machen einen anderen Weg)
+# da die Verteilung von M und F nicht bekannt ist kann kein Wert berechnet werden
+# annahme 3: Vom Total (= ProzentBasis) sind 50% M und 50% W
+
+df_sek <- df_sek %>% 
+  mutate(übertritt_absolut = ProzentBasis*Total) %>% 
+  mutate(m_absolut = round(übertritt_absolut/2*Männer)) %>% 
+  mutate(f_absolut = round(übertritt_absolut/2*Frauen)) %>% 
+  rename(sus_6kl_absolut = ProzentBasis) %>% 
+  select(!(Total:Frauen))
+
+
+### format zu long anpassen
+
+df_sek <- df_sek %>% 
+  pivot_longer(cols = starts_with(c("m_", "f_")),
                names_to = "geschlecht",
-               values_to = "geschlecht_wert")
-  # pivot_longer(cols = ubertritt_m | ubertritt_w,
-  #              names_to = "geschlecht",
-  #              values_to = "geschlecht_übertritt")
+               values_to = "übertritt_geschlecht_absolut") %>% 
+  relocate(geschlecht, .after = Geo_Einheit) %>% 
+  mutate(geschlecht = case_when(
+    geschlecht == "m_absolut" ~ "m",
+    geschlecht == "f_absolut" ~ "f")) 
+
+
+### daten speichern
+
+write.csv2(df_sek, here::here("daten", "daten_sek.csv"), 
+           row.names = FALSE)
+
