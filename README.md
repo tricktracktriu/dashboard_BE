@@ -2,7 +2,7 @@
 
 [Challenge C26: Uebertrittsquote Schulen](https://hack.opendata.ch/project/774)
 
-# Ziel
+### Ziel
 
 Visualisierungen der Karten in der [Bildungsstatistik](https://www.erz.be.ch/erz/de/index/direktion/organisation/generalsekretariat/statistik.assetref/dam/documents/ERZ/GS/de/GS-biev-statistik/BKD_INS_2021_Bildungsstatistik_Kt_BE_Basisdaten_2020.pdf) sollen interaktiv im Web verfügbar sein.
 
@@ -15,7 +15,7 @@ auch mit einem R-Skript gemacht werden.
 
 [Daten für PowerBi-Ansatz](https://github.com/brodrigues12345/Uebertrittsquoten_Schule)
 
-# Dashboard
+### Dashboard
 
 [Vorlage Dashboard für R](https://tricktracktriu.github.io/dashboard_BE/)
 
